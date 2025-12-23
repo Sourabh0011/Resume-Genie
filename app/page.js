@@ -14,7 +14,7 @@ const ResumeGenie = () => {
   // 1. Fetch requests for Dashboard (Fixed to GET)
   const fetchRequests = async () => {
     try {
-      const response = await fetch('https://resume-backend-umber.vercel.app/api/requests');
+      const response = await fetch('https://resume-backend-umber.vercel.app/requests');
       const data = await response.json();
       setRequests(data);
     } catch (error) {
