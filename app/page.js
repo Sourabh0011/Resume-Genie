@@ -25,7 +25,7 @@ const ResumeGenie = () => {
   // 2. Update Status Function (Mark as Sent)
   const markAsSent = async (id) => {
     try {
-      const response = await fetch(`https://resume-backend-umber.vercel.app/api/requests/${id}`, {
+      const response = await fetch(`https://resume-backend-umber.vercel.app/requests/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'Sent' })
@@ -174,29 +174,33 @@ const ResumeGenie = () => {
           </div>
         ) : (
           /* Dashboard View */
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex justify-between items-center mb-10">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 md:px-0">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-10 gap-2">
               <h2 className="text-3xl font-bold text-white">Request History</h2>
               <button onClick={fetchRequests} className="text-sm text-indigo-400 hover:text-indigo-300">Refresh Data</button>
             </div>
             
-            <div className="grid gap-4">
-              {requests.length > 0 ? requests.map((req, i) => (
-                <div key={i} className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:border-slate-700 transition-all">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                      <Mail size={20} />
-                    </div>
+            <div className="grid gap-3 md:gap-4">
+  {requests.length > 0 ? requests.map((req, i) => (
+    <div key={i} className="bg-slate-900/50 border border-slate-800 p-4 md:p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:border-slate-700 transition-all overflow-hidden">
+      
+      {/* User Info Section: Added min-w-0 to allow shrinking */}
+      <div className="flex items-center gap-3 md:gap-4 min-w-0">
+        <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <Mail size={18} className="md:size-5" />
+        </div>
                     <div>
                       <h4 className="text-white font-medium">{req.email}</h4>
                       <p className="text-slate-500 text-xs truncate max-w-xs">{req.linkedinUrl}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-6">
-                    <div className="text-right hidden md:block">
-                      <p className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Date</p>
-                      <p className="text-slate-300 text-sm">{new Date(req.createdAt).toLocaleDateString()}</p>
-                    </div>
+                  <div className="flex items-center justify-between md:justify-end gap-4 md:gap-8 border-t border-slate-800/50 pt-3 md:pt-0 md:border-0">
+          <div className="text-left md:text-right">
+            <p className="text-slate-500 text-[8px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Date</p>
+            <p className="text-slate-300 text-xs md:text-sm">
+              {new Date(req.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+            </p>
+          </div>
                     
                     {/* Updated Status Button */}
                     <button 
@@ -221,6 +225,20 @@ const ResumeGenie = () => {
             </div>
           </div>
         )}
+        {/* Trust Indicators */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          {[
+            { icon: <ShieldCheck />, title: "ATS Optimized", desc: "Rank higher in recruiter search results." },
+            { icon: <FileText />, title: "Multi-Template", desc: "Choose from 12+ professional designs." },
+            { icon: <Sparkles />, title: "AI Polishing", desc: "Automatically fix grammar and impact verbs." }
+          ].map((feature, i) => (
+            <div key={i} className="p-6 rounded-2xl border border-slate-800/50 bg-slate-900/30 hover:bg-slate-800/40 transition-colors">
+              <div className="text-indigo-400 mb-4">{feature.icon}</div>
+              <h4 className="text-white font-semibold mb-1">{feature.title}</h4>
+              <p className="text-slate-500 text-sm">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
 
         {/* --- Final Enhanced Footer --- */}
         <footer className="relative z-10 mt-24 border-t border-slate-800/50 bg-slate-900/60 backdrop-blur-2xl">
@@ -304,7 +322,7 @@ const ResumeGenie = () => {
                 </div>
                 <div className="text-center lg:text-right">
                   <p className="text-[10px] text-slate-600 uppercase tracking-[0.3em] mb-1 font-bold">&copy; 2025 LIMITLESS AI</p>
-                  <p className="text-xs text-slate-500 font-medium">Crafted with precision by Sourabh</p>
+                  <p className="text-xs text-slate-500 font-medium">Remember -- ‼️</p>
                 </div>
               </div>
 
